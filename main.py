@@ -7,6 +7,12 @@ import torch.nn.functional as F
 import numpy as np
 import sys
 
+try:
+  import googleclouddebugger
+  googleclouddebugger.enable()
+except ImportError:
+  pass
+
 app = Flask(__name__)
 model, tokenizer = None, None
 idx_to_token = {}
@@ -67,9 +73,10 @@ def init_model():
     model_class = transformers.BertForSequenceClassification
     tokenizer_class = transformers.BertTokenizer
     pretrained_weights = './model/'
+    pretrained_tokenizer = './tokenizer'
 
     # load weights for tokenizer and model
-    tokenizer = tokenizer_class.from_pretrained('bert-base-uncased')
+    tokenizer = tokenizer_class.from_pretrained(pretrained_tokenizer)
     model = model_class.from_pretrained(
         pretrained_weights,
         num_labels=20,
