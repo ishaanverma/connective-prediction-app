@@ -85,6 +85,3 @@ def init_model():
         16: "overall", 17: "rather", 18: "then", 19: "therefore"
     }
     model.eval()
-
-if __name__ == "__main__":
-    app.run(debug=True)
