@@ -42,24 +42,29 @@
                 </div>
                 <div class="container column">
                     <div id="predictionPanels" class="panel">
-                        <p class="panel-heading">
+                        <div class="panel-heading">
                             Top 5 Predictions
-                        </p>
-                        <p class="panel-block">
+                        </div>
+                        <div class="panel-block" style="display: flex; justify-content: space-between;">
+                        <p>&nbsp;</p>
+                          <span id="value"></span>
+                        </div>
+                        <div class="panel-block" style="display: flex; justify-content: space-between;">
                         &nbsp;
-                        </p>
-                        <p class="panel-block">
+                          <span id="value"></span>
+                        </div>
+                        <div class="panel-block" style="display: flex; justify-content: space-between;">
                         &nbsp;
-                        </p>
-                        <p class="panel-block">
+                          <span id="value"></span>
+                        </div>
+                        <div class="panel-block" style="display: flex; justify-content: space-between;">
                         &nbsp;
-                        </p>
-                        <p class="panel-block">
+                          <span id="value"></span>
+                        </div>
+                        <div class="panel-block" style="display: flex; justify-content: space-between;">
                         &nbsp;
-                        </p>
-                        <p class="panel-block">
-                        &nbsp;
-                        </p>
+                          <span id="value"></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -87,8 +92,11 @@
 
             function showPredictedConnectives(data, status, xhr) {
                 results = data["predictions"];
+                values = data["values"];
+                console.log(values);
                 $('#predictionPanels > .panel-block').each(function(index)  {
-                    $(this).text(results[index]);
+                    $(this).html(`<span>${results[index]}</span> <span class="panel-icon">${values[index].toFixed(3)} &nbsp;   </span>`);
+                    
                 });
                 
             }

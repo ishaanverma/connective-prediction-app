@@ -3,6 +3,7 @@ from flask import Flask
 from flask import render_template, request, url_for, jsonify
 import transformers
 import torch
+import torch.nn.functional as F
 import numpy as np
 import sys
 
@@ -43,13 +44,17 @@ def predict():
 
     logits = output[0]
     prediction = logits.detach().numpy()
+    softmax = F.softmax(logits, dim=1)
+    values = np.sort(-softmax, axis=1) * -1
+    values = values.tolist()[0][:5]
+    print(values)
     prediction = np.argpartition(-prediction, 5).tolist()
     prediction = prediction[0][:5]
     print(prediction)
     
     result = [ idx_to_token[i] for i in prediction ]
-    # predictions = ["item 1", "item 2", "item 3", "item 4", "item 5"]
-    return jsonify(predictions=result)
+
+    return jsonify(predictions=result, values=values)
 
 @app.before_first_request
 def init_model():
