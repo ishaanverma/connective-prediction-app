@@ -47,7 +47,7 @@ model, tokenizer, idx_to_token = init_model()
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("content/model.html")
 
 @app.route("/predict", methods=["GET", "POST"])
 def predict():

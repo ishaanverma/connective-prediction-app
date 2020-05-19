@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Connective Prediction</title>
+        {% include 'base/css.html' %}
+        
+        {% block extra_head %}
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}
+            {% include 'base/navbar.html' %}
+
+            {% block content %}
+            {% endblock %}
+
+            {% include 'base/js.html' %}
+
+            {% block extra_scripts %}
+            {% endblock %}
+        {% endblock %}
+    </body>
+</html>
