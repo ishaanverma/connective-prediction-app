@@ -1,8 +1,48 @@
-$(document).ready(function()  {
-  var example1 = ["", ""];
-  var example2 = ["", ""];
-  var example3 = ["", ""];
+var example1 = ["", ""];
+var example2 = ["", ""];
+var example3 = ["", ""];
 
+function showPredictedConnectives(data, status, xhr) {
+  results = data["predictions"];
+  values = data["values"];
+  console.log(values);
+  $('#predictionPanels > .panel-block').each(function(index)  {
+    $(this).html(`<span>${results[index]}</span> <span class="tag is-medium is-pulled-right">${values[index].toFixed(3)}</span>`);
+  });
+}
+
+$('#connectivePredict').submit(function(event)  {
+  event.preventDefault();
+  var form = $(this);
+  var url = form.attr('action');
+
+  $.get({
+    url: url,
+    data: form.serialize(),
+    beforeSend: function() { $('#submitForm').addClass("is-loading"); },
+    success: showPredictedConnectives,
+    complete: function() { $('#submitForm').removeClass("is-loading"); },
+  });
+})
+
+function updateConnectiveList(data)  {
+  connectives = data["connectives"];
+  container = $("<span></span>");
+  connectives.forEach(element => {
+    container.append(`<span class="tag">${element}</span>`);
+  });
+  $('#connective-tags').html(container);
+}
+
+function updateExamplesList(data) {
+  examples = data["examples"];
+  console.log(examples);
+  example1 = examples[0];
+  example2 = examples[1];
+  example3 = examples[2];
+}
+
+$(document).ready(function()  {
   $('#example1').click(function()  {
     $('#tabs > li').removeClass('is-active');
     $(this).parent().addClass('is-active');
@@ -44,6 +84,7 @@ $(document).ready(function()  {
         $('#header-message').text("Successfully Initialized");
         $('#header-message').show();
         updateConnectiveList(data);
+        updateExamplesList(data);
         $('#prediction-section').show();
       },
       complete: function() { $('#model-1').removeClass("is-loading"); },
@@ -73,6 +114,7 @@ $(document).ready(function()  {
         $('#header-message').text("Successfully Initialized");
         $('#header-message').show();
         updateConnectiveList(data);
+        updateExamplesList(data);
         $('#prediction-section').show(); 
       },
       complete: function() { $('#model-2').removeClass("is-loading"); 
@@ -87,42 +129,3 @@ $(document).ready(function()  {
     });
   });
 });
-
-function showPredictedConnectives(data, status, xhr) {
-  results = data["predictions"];
-  values = data["values"];
-  console.log(values);
-  $('#predictionPanels > .panel-block').each(function(index)  {
-    $(this).html(`<span>${results[index]}</span> <span class="tag is-medium is-pulled-right">${values[index].toFixed(3)}</span>`);
-  });
-}
-
-$('#connectivePredict').submit(function(event)  {
-  event.preventDefault();
-  var form = $(this);
-  var url = form.attr('action');
-
-  $.get({
-    url: url,
-    data: form.serialize(),
-    beforeSend: function() { $('#submitForm').addClass("is-loading"); },
-    success: showPredictedConnectives,
-    complete: function() { $('#submitForm').removeClass("is-loading"); },
-  });
-})
-
-function updateConnectiveList(data)  {
-  connectives = data["connectives"];
-  container = $("<span></span>");
-  connectives.forEach(element => {
-    container.append(`<span class="tag">${element}</span>`);
-  });
-  $('#connective-tags').html(container);
-}
-
-function updateExamplesList(data) {
-  examples = data["examples"];
-  example1 = examples[0];
-  example2 = examples[1];
-  example3 = examples[2];
-}

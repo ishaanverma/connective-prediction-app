@@ -32,9 +32,9 @@ def init_model(num):
     else:
         pretrained_weights = './model/model2/'
         idx_to_token = {
-            0: "[no connective]", 1: "because", 2: "or",
-            3: "and", 4: "so that", 5: "unless", 6: "for example",
-            7: "while", 8: "although", 9: "however", 10: "but", 11: "so"
+            0: "[no connective]", 1: "although", 2: "and",
+            3: "because", 4: "but", 5: "for example", 6: "however",
+            7: "or", 8: "so", 9: "so that", 10: "unless", 11: "while"
         }
     pretrained_tokenizer = './tokenizer'
 
@@ -77,7 +77,12 @@ def model():
                    ]
     elif model_num == "2":
         app.model, app.tokenizer, app.idx_to_token = init_model(2)
-        examples = []
+        examples = [("Of the three colors orange, yellow, and purple, we prefer purple.",
+                     "Purple reinforces the red."),
+                    ("Many residents speak Hindi, French, or Spanish.",
+                     "Others have a primary language of English."),
+                    ("Tropical cyclones are particularly a problem in Asia.",
+                     "In 2008, Cyclone Nargis damaged 122,782 hectares of deepwater rice in Burma.")]
     else:
         return Response(status=400)
 
@@ -88,9 +93,9 @@ def model():
 
 @app.route("/predict", methods=["GET"])
 def predict():
-    sentence1 = request.args.get("sentence1")
-    sentence2 = request.args.get("sentence2")
-    
+    sentence1 = request.args.get("sentence1").strip()
+    sentence2 = request.args.get("sentence2").strip()
+
     # Tokenize both sentences
     arg_dict = app.tokenizer.encode_plus(text=sentence1, text_pair=sentence2,
                                          max_length=128,
@@ -109,14 +114,12 @@ def predict():
                            attention_mask=attention_mask)
 
     logits = output[0]
-    prediction = logits.detach().numpy()
-    softmax = F.softmax(logits, dim=1)
-    values = np.sort(-softmax, axis=1) * -1
-    values = values.tolist()[0][:5]
-    # print(values)
-    prediction = np.argpartition(-prediction, 5).tolist()
-    prediction = prediction[0][:5]
-    # print(prediction)
+    prediction = logits.detach().numpy().flatten()
+    softmax = F.softmax(logits, dim=1).detach().numpy().flatten()
+    values = np.sort(-softmax) * -1
+    values = values.tolist()[:5]
+    prediction = (-prediction).argsort()
+    prediction = prediction[:5]
     
     result = [ app.idx_to_token[i] for i in prediction ]
 
