@@ -5,6 +5,7 @@ import transformers
 import torch
 import torch.nn.functional as F
 import numpy as np
+import gc
 
 try:
     import googleclouddebugger
@@ -55,8 +56,16 @@ def index():
 @app.route("/model", methods=["GET"])
 def model():
     model_num = request.args.get("modelNum")
+
+    # free up some memory
     if hasattr(app, "model"):
         del app.model
+    if hasattr(app, "tokenizer"):
+        del app.tokenizer
+    if hasattr(app, "idx_to_token"):
+        del app.idx_to_token
+    gc.collect()
+    # init models
     if model_num == "1":
         app.model, app.tokenizer, app.idx_to_token = init_model(1)
     elif model_num == "2":
