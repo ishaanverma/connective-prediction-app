@@ -2,86 +2,147 @@
 
 {% block content %}
 <div class="container is-fullhd">
-    <section class="section">
-    <div class="container has-text-centered">
-        <h1 class="title animate__animated animate__fadeInDown">Discourse Connective Prediction</h1>
-        <p class="subtitle animate__animated animate__fadeInDown animate__delay-1s">Type two sentences to predict a connective</p>
+  <section class="section">
+  <div class="container has-text-centered is-centered">
+    <h1 class="title animate__animated animate__fadeInDown">Discourse Connective Prediction</h1>
+    <p class="subtitle animate__animated animate__fadeInDown animate__delay-1s">Type two sentences to predict a connective</p>
+    <div class="columns is-centered">
+      <div class="column is-fullhd">
+        <h1 class="title is-4 animate__animated animate__fadeInDown">Select a model</h1>
+        <p class="subtitle is-6">
+          <strong>Model 1</strong> is trained on the dataset provided by Malmi et al.
+          <br/>
+          <strong>Model 2</strong> is trained on the DiscoFuse Wikipedia dataset (Geva et al.).
+        </p>
+        <div class="tabs is-toggle">
+          <ul id="model-tabs">
+            <li>
+              <a id="model-1" class="button">
+                <span>Model 1</span>
+              </a>
+            </li>
+            <li>
+              <a id="model-2" class="button">
+                <span>Model 2</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <p class="help">Model will usually take 30 seconds to initialize</p>
+      </div>
+    </div>
+  </div>
+  <div id="prediction-section" class="columns" style="display: none;">
+    <div class="column">
+      <div class="tabs is-toggle is-fullwidth">
+        <ul id="tabs">
+          <li>
+            <a id="example1" class="button">
+              <span class="icon is-small"><i class="far fa-circle" aria-hidden="true"></i></span>
+              <span>Example 1</span>
+            </a>
+          </li>
+          <li>
+            <a id="example2" class="button">
+              <span class="icon is-small"><i class="far fa-circle" aria-hidden="true"></i></span>
+              <span>Example 2</span>
+            </a>
+          </li>
+          <li>
+            <a id="example3" class="button">
+              <span class="icon is-small"><i class="far fa-circle" aria-hidden="true"></i></span>
+              <span>Example 3</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <form id="connectivePredict" action={{ url_for('predict') }} method="get">
+        <div class="field">
+          <label class="label">Sentence 1</label>
+          <div class="control">
+            <textarea name="sentence1" id="sentence1" class="textarea" placeholder="Enter Sentence 1" required></textarea>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Sentence 2</label>
+          <div class="control">
+            <textarea name="sentence2" id="sentence2" class="textarea" placeholder="Enter Sentence 2" required></textarea>
+          </div>
+        </div>
+        <div class="field">
+          <div class="control">
+            <button id="submitForm" type="submit" value="Predict" class="button is-info is-fullwidth">Predict</button>
+          </div>
+        </div>
         <br/>
+      </form>
     </div>
-    <div class="columns">
-        <div class="column">
-            <div class="tabs is-toggle is-fullwidth">
-                <ul id="tabs">
-                    <li>
-                        <a id="example1" class="button">
-                            <span class="icon is-small"><i class="far fa-circle" aria-hidden="true"></i></span>
-                            <span>Example 1</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a id="example2" class="button">
-                            <span class="icon is-small"><i class="far fa-circle" aria-hidden="true"></i></span>
-                            <span>Example 2</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a id="example3" class="button">
-                            <span class="icon is-small"><i class="far fa-circle" aria-hidden="true"></i></span>
-                            <span>Example 3</span>
-                        </a>
-                    </li>
-                </ul>
+    <div class="container column is-fullhd">
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title">Available Connectives</p>
+          <a class="card-header-icon card-toggle">
+            <span class="icon">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+            </span>
+           </a>
+        </header>
+        <div class="card-content is-hidden">
+          <div class="content">
+            <div class="tags are-medium">
+              <span class="tag">[no connective]</span>
+              <span class="tag">and</span>
+              <span class="tag">by contrast</span>
+              <span class="tag">by then</span>
+              <span class="tag">finally</span>
+              <span class="tag">for example</span>
+              <span class="tag">however</span>
+              <span class="tag">in other words</span>
+              <span class="tag">in particular</span>
+              <span class="tag">indead</span>
+              <span class="tag">instead</span>
+              <span class="tag">meanwhile</span>
+              <span class="tag">moreover</span>
+              <span class="tag">nevertheless</span>
+              <span class="tag">on the other hand</span>
+              <span class="tag">otherwise</span>
+              <span class="tag">overall</span>
+              <span class="tag">rather</span>
+              <span class="tag">then</span>
+              <span class="tag">therefore</span>
             </div>
-            <form id="connectivePredict" action={{ url_for('predict') }} method="get">
-                <div class="field">
-                    <label class="label">Sentence 1</label>
-                    <div class="control">
-                        <textarea name="sentence1" id="sentence1" class="textarea" placeholder="Enter Sentence 1" required></textarea>
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Sentence 2</label>
-                    <div class="control">
-                        <textarea name="sentence2" id="sentence2" class="textarea" placeholder="Enter Sentence 2" required></textarea>
-                    </div>
-                </div>
-                <div class="field">
-                    <div class="control">
-                        <button id="submitForm" type="submit" value="Predict" class="button is-info is-fullwidth">Predict</button>
-                    </div>
-                </div>
-                <br/>
-            </form>
+          </div>
         </div>
-        <div class="container column is-fullhd">
-            <div id="predictionPanels" class="panel">
-                <div class="panel-heading">
-                    Top 5 Predictions
-                </div>
-                <div class="panel-block" style="display: flex; justify-content: space-between;"> 
-                  &nbsp;
-                  <span id="value is-pulled-right"></span>
-                </div>
-                <div class="panel-block" style="display: flex; justify-content: space-between;">
-                  &nbsp;
-                  <span id="value"></span>
-                </div>
-                <div class="panel-block" style="display: flex; justify-content: space-between;">
-                  &nbsp;
-                  <span id="value"></span>
-                </div>
-                <div class="panel-block" style="display: flex; justify-content: space-between;">
-                  &nbsp;
-                  <span id="value"></span>
-                </div>
-                <div class="panel-block" style="display: flex; justify-content: space-between;">
-                  &nbsp;
-                  <span id="value"></span>
-                </div>
-            </div>
+      </div>
+      <br/>
+      <div id="predictionPanels" class="panel">
+        <div class="panel-heading">
+          Top 5 Predictions
         </div>
+        <div class="panel-block" style="display: flex; justify-content: space-between;"> 
+          &nbsp;
+          <span id="value is-pulled-right"></span>
+        </div>
+        <div class="panel-block" style="display: flex; justify-content: space-between;">
+          &nbsp;
+          <span id="value"></span>
+        </div>
+        <div class="panel-block" style="display: flex; justify-content: space-between;">
+          &nbsp;
+          <span id="value"></span>
+        </div>
+        <div class="panel-block" style="display: flex; justify-content: space-between;">
+          &nbsp;
+          <span id="value"></span>
+        </div>
+        <div class="panel-block" style="display: flex; justify-content: space-between;">
+          &nbsp;
+          <span id="value"></span>
+        </div>
+      </div>
     </div>
-    </section>
+  </div>
+  </section>
 </div>
 {% endblock %}
 
