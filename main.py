@@ -55,7 +55,8 @@ def index():
 @app.route("/model", methods=["GET"])
 def model():
     model_num = request.args.get("modelNum")
-    print(model_num)
+    if hasattr(app, "model"):
+        del app.model
     if model_num == "1":
         app.model, app.tokenizer, app.idx_to_token = init_model(1)
     elif model_num == "2":

@@ -35,6 +35,7 @@ $(document).ready(function()  {
       beforeSend: function() { $('#model-1').addClass('is-loading'); },
       success: function(data, status, xhr) { 
         console.log("Initialized Model 1"); 
+        $('#header-message').removeClass("is-danger");
         $('#header-message').addClass("is-success");
         $('#header-message').text("Successfully Initialized");
         $('#header-message').show();
@@ -44,8 +45,10 @@ $(document).ready(function()  {
       complete: function() { $('#model-1').removeClass("is-loading"); },
       error: function() { 
         console.log("Failed Model 1 Init"); 
+        $('#header-message').removeClass("is-success");
         $('#header-message').addClass("is-danger");
         $('#header-message').text("Failed to Initialize");
+        $('#header-message').show();
       }
     });
   });
@@ -61,6 +64,7 @@ $(document).ready(function()  {
       beforeSend: function() { $('#model-2').addClass('is-loading'); },
       success: function(data, status, xhr) { 
         console.log("Initialized Model 2"); 
+        $('#header-message').removeClass("is-danger");
         $('#header-message').addClass("is-success");
         $('#header-message').text("Successfully Initialized");
         $('#header-message').show();
@@ -71,8 +75,10 @@ $(document).ready(function()  {
     },
       error: function() { 
         console.log("Failed Model 2 Init"); 
+        $('#header-message').removeClass("is-success");
         $('#header-message').addClass("is-danger");
         $('#header-message').text("Failed to Initialize");
+        $('#header-message').show();
       }
     });
   });
@@ -104,7 +110,6 @@ $('#connectivePredict').submit(function(event)  {
 function updateConnectiveList(data)  {
   connectives = data["connectives"];
   container = $("<span></span>");
-  console.log(connectives);
   connectives.forEach(element => {
     container.append(`<span class="tag">${element}</span>`);
   });
