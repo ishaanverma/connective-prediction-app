@@ -68,12 +68,22 @@ def model():
     # init models
     if model_num == "1":
         app.model, app.tokenizer, app.idx_to_token = init_model(1)
+        examples = [("Hebden Bridge is a popular place to live.",
+                     "Space is limited due to the steep valleys and lack of flat land."),
+                    ("As a consequence, three ministers resigned.",
+                     "Prime Minister Horn won the majority of the Socialists behind himself."),
+                    ("In 1997, the College again made a name change to Petit Jean College.",
+                     "In 2001, Petit Jean College merged with the University of Arkansas System and became the College at Morrilton.")
+                   ]
     elif model_num == "2":
         app.model, app.tokenizer, app.idx_to_token = init_model(2)
+        examples = []
     else:
         return Response(status=400)
 
-    response = jsonify(success=True, connectives=list(app.idx_to_token.values()))
+    response = jsonify(success=True, 
+                       connectives=list(app.idx_to_token.values()),
+                       examples=examples)
     return response
 
 @app.route("/predict", methods=["GET"])

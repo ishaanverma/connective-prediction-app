@@ -1,23 +1,27 @@
 $(document).ready(function()  {
+  var example1 = ["", ""];
+  var example2 = ["", ""];
+  var example3 = ["", ""];
+
   $('#example1').click(function()  {
     $('#tabs > li').removeClass('is-active');
     $(this).parent().addClass('is-active');
-    $("#sentence1").val("Hebden Bridge is a popular place to live.");
-    $("#sentence2").val("Space is limited due to the steep valleys and lack of flat land.");
+    $("#sentence1").val(example1[0]);
+    $("#sentence2").val(example1[1]);
   });
   
   $('#example2').click(function()  {
     $('#tabs > li').removeClass('is-active');
     $(this).parent().addClass('is-active');
-    $("#sentence1").val("As a consequence, three ministers resigned.");
-    $("#sentence2").val("Prime Minister Horn won the majority of the Socialists behind himself.");
+    $("#sentence1").val(example2[0]);
+    $("#sentence2").val(example2[1]);
   });
   
   $('#example3').click(function()  {
     $('#tabs > li').removeClass('is-active');
     $(this).parent().addClass('is-active');
-    $("#sentence1").val("In 1997, the College again made a name change to Petit Jean College.");
-    $("#sentence2").val("In 2001, Petit Jean College merged with the University of Arkansas System and became the College at Morrilton.");
+    $("#sentence1").val(example3[0]);
+    $("#sentence2").val(example3[1]);
   });
 
   $('.card-toggle').click(function()   {
@@ -114,4 +118,11 @@ function updateConnectiveList(data)  {
     container.append(`<span class="tag">${element}</span>`);
   });
   $('#connective-tags').html(container);
+}
+
+function updateExamplesList(data) {
+  examples = data["examples"];
+  example1 = examples[0];
+  example2 = examples[1];
+  example3 = examples[2];
 }
