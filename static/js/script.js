@@ -9,6 +9,7 @@ function showPredictedConnectives(data, status, xhr) {
   $('#predictionPanels > .panel-block').each(function(index)  {
     $(this).html(`<span>${results[index]}</span> <span class="tag is-medium is-pulled-right">${values[index].toFixed(3)}</span>`);
   });
+  $('#predict-message').text("");
 }
 
 $('#connectivePredict').submit(function(event)  {
@@ -22,6 +23,10 @@ $('#connectivePredict').submit(function(event)  {
     beforeSend: function() { $('#submitForm').addClass("is-loading"); },
     success: showPredictedConnectives,
     complete: function() { $('#submitForm').removeClass("is-loading"); },
+    error: function() { 
+      $('#predict-message').addClass("is-danger");
+      $("#predict-message").text("Could not fetch results. Please initialize model again.");
+    }
   });
 })
 
