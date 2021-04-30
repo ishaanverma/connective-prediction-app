@@ -14,7 +14,7 @@ numpy==1.18.4
 pyasn1==0.4.8
 regex==2020.5.13
 requests==2.23.0
-rsa==4.0
+rsa==4.7
 sacremoses==0.0.43
 sentencepiece==0.1.90
 six==1.14.0
